@@ -1,0 +1,65 @@
+/* Login Page Styling is Star from Here */
+
+.input-feild {
+  max-width: 300px;
+  background: rgb(248, 246, 242);
+  padding: 20px;
+  padding-left: 30px;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 1px 2px 5px gray;
+}
+
+link {
+  font-family: 'Roboto Slab', serif;
+
+}
+
+/* Home Page Styling */
+.card {
+  display: flex;
+  flex-direction: row-reverse;
+  background-color: eef1f0 ;
+  border-radius: 5px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 20px;
+}
+
+.imag {
+  width: 450px;
+  border-radius: 5px;
+}
+
+.card-content {
+  flex: 1;
+  padding: 10px;
+}
+
+.card-content h2 {
+  margin-top: 0;
+}
+
+.card-content h5 h4 {
+  margin-bottom: 10px;
+}
+
+/* .btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #555;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+} */
+
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+  }
+
+  .card img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+  }
+}
