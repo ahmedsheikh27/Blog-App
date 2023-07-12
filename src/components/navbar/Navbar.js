@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { BrowserRouter,Link, Route, Routes } from "react-router-dom";
 import "./navbar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faCircleXmark, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faBars, faBlog } from '@fortawesome/free-solid-svg-icons';
 import Home from '../pages/Home'
 import About from '../pages/About'
 import Register from "../pages/Register";
 import SignIn from "../pages/SignIn";
+import Post from "../card/posts/Post";
 
 
 
@@ -20,8 +21,7 @@ function Navbar() {
       <nav className="navbar">
         <div className="nav-container">
           <Link exact to="/" className="nav-logo">
-            CodeBucks
-            <FontAwesomeIcon icon={faCode}  />
+            <FontAwesomeIcon icon={faBlog} />
           </Link>
 
           <ul className={click ? "nav-menu active" : "nav-menu"}>
@@ -91,6 +91,7 @@ function Navbar() {
           <Route element={<About />} path='/About' />
           <Route element={<SignIn />} path='/SignIn' />
           <Route element={<Register />} path='/Register' />
+          <Route element={<Post />} path='/Post' />
       </Routes>
       </BrowserRouter>
     </>
