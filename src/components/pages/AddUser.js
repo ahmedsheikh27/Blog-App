@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendEmailVerification } from "firebase/auth";
 import { auth } from '../config/Firebasa';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
+// import { Link } from 'react-router-dom';
 // import Register from './Register';
 // import {firebase} from 'firebase/app';
 
@@ -50,17 +48,15 @@ const SignIn = () => {
       });
 
   }
-//   const del = auth.currentUser
-//   const handleDelete = () => {
-//     deleteUser(del).then(() => {
-//       // User deleted.
-// console.log("User Deleted SuccessFully")
-//     }).catch((error) => {
-//       // An error ocurred
-//       // ...
-//     });
-//   }
-
+  // const handelDelete = () => {
+  //   const user = auth.currentUser
+  //   deleteUser(user).then((currentUser) => {
+  //     // User deleted.
+  //   }).catch((error) => {
+  //     // An error ocurred
+  //     // ...
+  //   });
+  // }
   const handleSignout = (e) => {
     signOut(auth).then(() => {
       console.log("User is Signed Out")
@@ -109,7 +105,7 @@ const SignIn = () => {
 
           ? <div>
             <img className='img-fluid rounded-5'
-              src={user.photoURL} alt={`${user.email}`} />
+              src={user.photoURL} alt={`${user.email} Profile Photo`} />
             <h2>User Email :{user.email}</h2>
             <h2>User Name:  {user.name}</h2>
             <button
@@ -127,11 +123,6 @@ const SignIn = () => {
                 onClick={handleUpdateProfile}>
                 Profile
               </button>
-              {/* <button
-                className='btn btn-danger fw-bold btn-sm'
-                onClick={handleDelete}>
-               Delete User
-              </button> */}
           </div>
 
           : <div className='d-flex justify-content-center flex-column'>
@@ -140,7 +131,6 @@ const SignIn = () => {
               <div className='fw-bold text-warning font-poppins text-center'>
 
                 <h5 >Welcome Back</h5>
-                <FontAwesomeIcon className='fs-1' icon={faFaceSmile} />
               </div>
 
               <div className="mb-3">
@@ -212,7 +202,7 @@ const SignIn = () => {
                   Submit
                 </button>
               </div>
-
+{/* 
               <p className='mt-3 text-center'>
                 Don't Have An Account?
                 <Link to='/Register'
@@ -220,7 +210,7 @@ const SignIn = () => {
                   Register</Link>
 
 
-              </p>
+              </p> */}
               
             </form>
             {/* <button onClick={deleteUser}>Delete User</button> */}

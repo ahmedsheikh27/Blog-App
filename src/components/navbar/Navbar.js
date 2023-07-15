@@ -7,7 +7,8 @@ import Home from '../pages/Home'
 import About from '../pages/About'
 import Register from "../pages/Register";
 import SignIn from "../pages/SignIn";
-import Post from "../card/posts/Post";
+import Post from "../posts/Post";
+import AddUser from '../pages/AddUser'
 
 
 
@@ -65,16 +66,28 @@ function Navbar() {
                 Contact Us
               </Link>
             </li> 
+
             <li className="nav-item">
+              <Link
+                exact
+                to="/AddUser"
+                activeClassName="active"
+                className="nav-links"
+              >
+               Add User
+              </Link>
+            </li>
+            { <li className="nav-item">
               <Link
                 exact
                 to="/SignIn"
                 activeClassName="active"
                 className="nav-links"
-              >
+                >
                Login
               </Link>
             </li>
+              }
           </ul>
           <div className="nav-icon" onClick={handleClick}>
             {
@@ -92,6 +105,7 @@ function Navbar() {
           <Route element={<SignIn />} path='/SignIn' />
           <Route element={<Register />} path='/Register' />
           <Route element={<Post />} path='/Post' />
+          <Route element={<AddUser />} path="/AddUser" />
       </Routes>
       </BrowserRouter>
     </>

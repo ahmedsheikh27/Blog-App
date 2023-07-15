@@ -4,7 +4,7 @@ import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import './page.css'
 
-const initiallizestate = { email: "", password: "" }
+const initiallizestate = {name:"", email: "", password: "" }
 
 const Register = () => {
 
@@ -17,9 +17,9 @@ const Register = () => {
     e.preventDefault();
     console.log(state)
 
-    const { email, password } = state
+    const { email, password, name } = state
 
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password, name)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
@@ -32,6 +32,7 @@ const Register = () => {
         // ..
         console.log(error)
       });
+      
   }
 
 
@@ -46,7 +47,25 @@ const Register = () => {
 <h5 >New to Here</h5>
 </div>
 
-
+<div className="mb-3">
+            <label
+              for="exampleInputEmail1"
+              className="form-label">
+              Your Name
+            </label>
+            <input
+              type="text"
+              name='name'
+              placeholder='First and Last name'
+              onChange={handleChange}
+              className="form-control p-3"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+            <div id="emailHelp" className="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
           <div className="mb-3">
             <label
               for="exampleInputEmail1"
@@ -62,9 +81,6 @@ const Register = () => {
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
             />
-            <div id="emailHelp" className="form-text">
-              We'll never share your email with anyone else.
-            </div>
           </div>
           <div className="mb-3">
             <label
