@@ -67,17 +67,17 @@ function Navbar() {
               </Link>
             </li> 
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link
                 exact
-                to="/AddUser"
+                to="/SignIn"
                 activeClassName="active"
                 className="nav-links"
               >
                Add User
               </Link>
-            </li>
-            { <li className="nav-item">
+            </li> */}
+             <li className="nav-item">
               <Link
                 exact
                 to="/SignIn"
@@ -87,7 +87,7 @@ function Navbar() {
                Login
               </Link>
             </li>
-              }
+              
           </ul>
           <div className="nav-icon" onClick={handleClick}>
             {
@@ -105,7 +105,7 @@ function Navbar() {
           <Route element={<SignIn />} path='/SignIn' />
           <Route element={<Register />} path='/Register' />
           <Route element={<Post />} path='/Post' />
-          <Route element={<AddUser />} path="/AddUser" />
+          {/* <Route element={<AddUser />} path="/SignIn" /> */}
       </Routes>
       </BrowserRouter>
     </>

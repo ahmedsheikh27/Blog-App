@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import './page.css'
 
-const initiallizestate = {name:"", email: "", password: "" }
+const initiallizestate = { name: "", email: "", password: "" }
 
 const Register = () => {
 
@@ -15,25 +15,28 @@ const Register = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(state)
-
-    const { email, password, name } = state
-
-    createUserWithEmailAndPassword(auth, email, password, name)
+    const { email, password, name } = state;
+  
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // ...
-        console.log(user)
+        
+        // Update the user's display name
+        updateProfile(user, { displayName: name })
+          .then(() => {
+            console.log('User display name updated:', name);
+            // Redirect or do something else if needed
+          })
+          .catch((error) => {
+            console.error('Error updating user display name:', error);
+          });
       })
       .catch((error) => {
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
-        // ..
-        console.log(error)
+        console.error('Error creating user:', error);
       });
-      
-  }
+  };
+  
 
 
 
@@ -43,11 +46,11 @@ const Register = () => {
       <div className='d-flex justify-content-center flex-column'>
         <h1 className='mt-3 text-center text-danger mb-3'>Register</h1>
         <form className='input-feild'>
-        <div className='fw-bold text-warning font-poppins text-center'>
-<h5 >New to Here</h5>
-</div>
+          <div className='fw-bold text-warning font-poppins text-center'>
+            <h5 >New to Here</h5>
+          </div>
 
-<div className="mb-3">
+          <div className="mb-3">
             <label
               for="exampleInputEmail1"
               className="form-label">
@@ -124,7 +127,7 @@ const Register = () => {
           </p>
         </form>
 
-        
+
       </div>
     </div >
   )

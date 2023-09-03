@@ -34,12 +34,18 @@ const SignIn = () => {
 
     const { email, password, name } = state
 
-    signInWithEmailAndPassword(auth, email, password, name )
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         // ...
-        setUser(user)
+        updateProfile(user, { displayName: name })
+        .then(() => {
+          setUser(user);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       })
       .catch((error) => {
         //   const errorCode = error.code;
@@ -83,7 +89,7 @@ const SignIn = () => {
   }
   const handleUpdateProfile = () => {
     updateProfile(auth.currentUser, {
-      displayName: user.name, photoURL: "https://firebasestorage.googleapis.com/v0/b/blog-app-747b7.appspot.com/o/343492293_626551852662849_1932717340159949781_n.jpg?alt=media&token=a7eb8443-aeb4-4846-8805-e425f5c47a31",
+      displayName: user.name, photoURL: "https://firebasestorage.googleapis.com/v0/b/blog-app-9bd8b.appspot.com/o/WIN_20230823_21_35_26_Pro.jpg?alt=media&token=3fcdae40-3494-4549-aeb6-317a456a0509",
     }).then(() => {
       window.location.reload();
       // Profile updated!
@@ -101,13 +107,11 @@ const SignIn = () => {
 
     <div>
         {user.email
-
-
           ? <div>
             <img className='img-fluid rounded-5'
               src={user.photoURL} alt={`${user.email} Profile Photo`} />
             <h2>User Email :{user.email}</h2>
-            <h2>User Name:  {user.name}</h2>
+            <h2>User Name:  {user.displayName}</h2>
             <button
                 className='btn btn-danger fw-bold btn-sm'
                 onClick={handleSignout}>

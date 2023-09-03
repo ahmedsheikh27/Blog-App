@@ -40,8 +40,13 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // ...
-        setUser(user)
+        updateProfile(user, { displayName: name })
+        .then(() => {
+          setUser(user);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       })
       .catch((error) => {
         //   const errorCode = error.code;
@@ -111,7 +116,7 @@ const SignIn = () => {
             <img className='img-fluid rounded-5'
               src={user.photoURL} alt={`${user.email}`} />
             <h2>User Email :{user.email}</h2>
-            <h2>User Name:  {user.name}</h2>
+            <h2>User Name:  {user.displayName}</h2>
             <button
                 className='btn btn-danger fw-bold btn-sm'
                 onClick={handleSignout}>
