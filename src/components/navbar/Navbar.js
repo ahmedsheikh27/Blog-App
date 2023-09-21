@@ -8,7 +8,7 @@ import About from '../pages/About'
 import Register from "../pages/Register";
 import SignIn from "../pages/SignIn";
 import Post from "../posts/Post";
-import ContactUs from "../pages/ContactUs";
+import Addpost from "../pages/Addpost";
 
 
 
@@ -49,11 +49,11 @@ function Navbar() {
             <li className="nav-item">
               <Link
                 exact
-                to="/blog"
+                to="/AddPost"
                 activeClassName="active"
                 className="nav-links"
               >
-                Blog
+                AddPost
               </Link>
             </li>
             <li className="nav-item">
@@ -105,7 +105,7 @@ function Navbar() {
           <Route element={<SignIn />} path='/SignIn' />
           <Route element={<Register />} path='/Register' />
           <Route element={<Post />} path='/Post' />
-          <Route element={<ContactUs />} path="/ContactUs" />
+          <Route element={<Addpost />} path="/AddPost" />
       </Routes>
       </BrowserRouter>
     </>
