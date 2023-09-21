@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import './page.css'
 
-const initiallizestate = { name: "", email: "", password: "" }
+const initiallizestate = { email: "", password: "" }
 
 const Register = () => {
 
@@ -15,26 +15,22 @@ const Register = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password, name } = state;
+    const { email, password } = state;
   
+    
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+    .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        
-        // Update the user's display name
-        updateProfile(user, { displayName: name })
-          .then(() => {
-            console.log('User display name updated:', name);
-            // Redirect or do something else if needed
-          })
-          .catch((error) => {
-            console.error('Error updating user display name:', error);
-          });
-      })
-      .catch((error) => {
-        console.error('Error creating user:', error);
-      });
+
+        console.log("User Registered")
+        console.log(userCredential)
+        console.log(user)
+    })
+    .catch((error) => {
+      console.error(error)
+      // ..
+    });
   };
   
 

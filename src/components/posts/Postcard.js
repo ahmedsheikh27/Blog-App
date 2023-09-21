@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 const Postcard = () => {
 
 
-    const postDate = new Date('2023-07-12').toLocaleDateString();
+    // const postDate = new Date().toLocaleDateString();
     return (
         <>
             <Box sx={{
@@ -41,7 +41,7 @@ const Postcard = () => {
                                     image={require('../assets/eyes.jpg')}
                                     alt=""
                                 />
-                                {postDate}
+                               
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div">
                                         Eyes
@@ -52,11 +52,7 @@ const Postcard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
+                           
                         </Card>
                     </Grid>
                     <Grid  >
@@ -74,6 +70,7 @@ const Postcard = () => {
                                     image={require('../assets/bunty.jpg')}
                                     alt="Card Image"
                                 />
+                                
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div">
                                         Lizard
@@ -84,11 +81,7 @@ const Postcard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
+                           
 
 
                         </Card>
@@ -117,12 +110,7 @@ const Postcard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
+                           
 
                         </Card>
                     </Grid>
@@ -149,11 +137,6 @@ const Postcard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
                         </Card>
                     </Grid>
                     <Grid  >
@@ -181,14 +164,7 @@ const Postcard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
-
-                        </Card>
+                            </Card>
                     </Grid>
                     <Grid  >
 
@@ -214,14 +190,7 @@ const Postcard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
-
-                        </Card>
+                            </Card>
                     </Grid>
 
 
