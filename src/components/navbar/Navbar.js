@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { BrowserRouter,Link, Route, Routes } from "react-router-dom";
 import "./navbar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faBars, faBlog } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faBars } from '@fortawesome/free-solid-svg-icons';
 import Home from '../pages/Home'
 import About from '../pages/About'
 import Register from "../pages/Register";
 import SignIn from "../pages/SignIn";
 import Post from "../posts/Post";
-import Addpost from "../pages/Addpost";
+import Addpost from "../../components/pages/AddPost";
+import logo from '../assets/logo.png'
 
 
 
@@ -22,7 +23,7 @@ function Navbar() {
       <nav className="navbar">
         <div className="nav-container">
           <Link exact to="/" className="nav-logo">
-            <FontAwesomeIcon icon={faBlog} />
+           <img src={logo} className="logo" />
           </Link>
 
           <ul className={click ? "nav-menu active" : "nav-menu"}>
@@ -56,27 +57,9 @@ function Navbar() {
                 AddPost
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                exact
-                to="/ContactUs"
-                activeClassName="active"
-                className="nav-links"
-              >
-                Contact Us
-              </Link>
-            </li> 
+          
 
-            {/* <li className="nav-item">
-              <Link
-                exact
-                to="/SignIn"
-                activeClassName="active"
-                className="nav-links"
-              >
-               Add User
-              </Link>
-            </li> */}
+  
              <li className="nav-item">
               <Link
                 exact
