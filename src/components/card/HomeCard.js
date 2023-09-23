@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { Button, CardActionArea, CardActions, Typography } from '@mui/material';
+import { Button, CardActionArea, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 const HomeCard = () => {
 
 
-    const postDate = new Date('2023-07-12').toLocaleDateString();
     return (
         <>
             <Box sx={{
@@ -42,7 +41,6 @@ const HomeCard = () => {
                                     image={require('../assets/eyes.jpg')}
                                     alt=""
                                 />
-                                {postDate}
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div">
                                         Eyes
@@ -53,11 +51,7 @@ const HomeCard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
+                            
                         </Card>
                     </Grid>
                     <Grid  >
@@ -85,14 +79,7 @@ const HomeCard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
-
-                        </Card>
+                            </Card>
                     </Grid>
                     <Grid  >
 
@@ -118,14 +105,7 @@ const HomeCard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
-
-                        </Card>
+                             </Card>
                     </Grid>
                     <Grid >
                         <Card sx={{
@@ -150,12 +130,7 @@ const HomeCard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-                        </Card>
+                             </Card>
                     </Grid>
                     <Grid  >
 
@@ -182,14 +157,7 @@ const HomeCard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
-
-                        </Card>
+                              </Card>
                     </Grid>
                     <Grid  >
 
@@ -215,14 +183,7 @@ const HomeCard = () => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                            </CardActions>
-
-
-                        </Card>
+                            </Card>
                     </Grid>
 
 

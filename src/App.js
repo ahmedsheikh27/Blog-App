@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './components/navbar/Navbar'
-// import Footer from './components/footer/Footer'
-// import SignIn from './components/pages/SignIn';
+import './App.css'
+import Footer from './components/footer/Footer'
 
 const App = () => {
 
@@ -10,7 +10,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
       }

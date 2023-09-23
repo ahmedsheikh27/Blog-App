@@ -11,3 +11,134 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@media screen and (max-width: 450px) {
+  .MuiTextField-root {
+    width: 100%;
+  }
+  .MuiFormControl-root {
+    margin-bottom: 16px;
+  }
+}
+
+/* For screens larger than 450px */
+@media screen and (min-width: 451px) {
+  .MuiTextField-root {
+    width: 50%; /* Two text fields in a line */
+  }
+  .MuiFormControl-root {
+    margin-bottom: 16px;
+  }
+}
+
+/* AboutUs.css */
+
+/* Overall page styles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Heading styles */
+h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Paragraph styles */
+p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+/* List styles */
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+/* List item styles */
+li {
+  margin-bottom: 10px;
+}
+
+/* Media query for responsive design */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+}
+
+/* Footer */
+
+/* Add these styles to your existing CSS file or create a new one */
+
+/* Footer styles */
+.footer {
+  background-color: #390753;
+  color: #fff;
+  padding: 40px 0;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer-section {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.footer-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li {
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+/* Media query for responsive design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .footer-section {
+    margin-bottom: 30px;
+  }
+}
+
+.footer-logo img {
+  max-width: 150px; /* Adjust the width to fit your logo size */
+  height: auto;
+  margin-left: -250px;
+  border-radius: 10px;
+}
+
+/* Rest of the styles remain the same */
+
