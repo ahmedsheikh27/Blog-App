@@ -84,17 +84,20 @@ li {
   background-color: #390753;
   color: #fff;
   padding: 10px 0;
+  margin-top: 30px;
 }
 
 .container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center; /* Center items vertically */
 }
 
 .footer-section {
   flex: 1;
-  margin-right: 20px;
+  margin-right: 20px; /* Add right margin for spacing */
+  margin-bottom: 20px;
 }
 
 .footer-section h2 {
@@ -122,6 +125,13 @@ li {
   font-size: 0.9rem;
 }
 
+.footer-logo img {
+  max-width: 150px;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 0; /* Reset left margin */
+}
+
 /* Media query for responsive design */
 @media (max-width: 768px) {
   .container {
@@ -129,16 +139,22 @@ li {
   }
 
   .footer-section {
-    margin-bottom: 30px;
+    margin-right: 0;
+    text-align: center; /* Center content in the column layout */
+  }
+
+  .footer-logo {
+    flex: 0; /* Set flex to 0 to prevent it from growing */
+  }
+  
+
+  .footer-logo img {
+    max-width: 100px;
+    margin-bottom: 20px;
   }
 }
 
-.footer-logo img {
-  max-width: 150px; /* Adjust the width to fit your logo size */
-  height: auto;
-  margin-left: -250px;
-  border-radius: 10px;
-}
+
 
 /* Rest of the styles remain the same */
 
