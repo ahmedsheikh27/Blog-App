@@ -9,7 +9,7 @@ import Register from "../pages/Register";
 import SignIn from "../pages/SignIn";
 import Post from "../posts/Post";
 import Addpost from "../../components/pages/AddPost";
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.png'
 
 
 
