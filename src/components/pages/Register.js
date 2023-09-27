@@ -1,61 +1,55 @@
-import React, { useState } from 'react'
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import React, { useState } from 'react';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
-import {  getFirestore,collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
-import './page.css'
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import './page.css';
 
-const initialState = { name: "", email: "", password: "" };
-
+const initialState = { name: '', email: '', password: '', imageUrl: '' };
 
 const Register = () => {
-
-  const [state, setState] = useState(initialState)
+  const [state, setState] = useState(initialState);
 
   const handleChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, name } = state;
-  
+    const { email, password, name, imageUrl } = state;
+
     try {
       // Create the user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
-      // Set the user's display name to be the email
-      await updateProfile(user, { displayName: email });
-  
+
+      // Set the user's display name to be the name
+      await updateProfile(user, { displayName: name, photoURL:imageUrl });
+
       // Store the user's data in Firestore
       const db = getFirestore();
       const usersRef = collection(db, 'users');
-  
+
       await addDoc(usersRef, {
         name: name,
         email: email,
-        password: password,
+        password:password,
+        imageUrl: imageUrl,
         // You can add more user-related data here if needed
       });
-  
-      console.log("User Registered");
+
+      console.log('User Registered');
       console.log(userCredential);
       console.log(user);
     } catch (error) {
       console.error(error);
     }
   };
-  
-
-
-
-
-
 
   return (
     <div>
-      <div className='d-flex justify-content-center flex-column'>
-        <h1 className='mt-3 text-center text-danger mb-3'>Register</h1>
+      <div className="d-flex justify-content-center flex-column">
+        <h1 className="mt-3 text-center text-danger mb-3">Register</h1>
         <form className='input-feild'>
           <div className='fw-bold text-warning font-poppins text-center'>
             <h5 >New to Here</h5>
@@ -107,38 +101,40 @@ const Register = () => {
           onChange={handleChange}
         />
       </div>
-      <div className="mb-3 form-check">
-        <input type="checkbox"
-          className="form-check-input"
-          id="exampleCheck1"
-          onChange={handleChange} />
-        <label
-          className="form-check-label"
-          for="exampleCheck1"
-        > Check me out</label>
+          <div className="mb-3">
+            <label htmlFor="exampleInputImage" className="form-label">
+              Add Image
+            </label>
+            <input
+              type="file"
+              className="form-control p-3"
+              placeholder="Enter Profile Photo"
+              id="exampleInputImage"
+              name="imageUrl" // Change 'image' to 'imageUrl'
+              onChange={handleChange}
+            />
+          </div>
+          {/* ...other input fields */}
+          <div className="d-flex justify-content-center">
+            <button
+              type="submit"
+              className="btn btn-outline-warning d-flex justify-content-center text-dark fw-bold "
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
+
+          <p className="mt-3 text-center">
+            Already Have An Account?
+            <Link to="/SignIn" className="fw-bold text-decoration-none">
+              Sign In
+            </Link>
+          </p>
+        </form>
       </div>
-      <div className='d-flex justify-content-center '>
+    </div>
+  );
+};
 
-        <button
-          type="submit"
-          className="btn btn-outline-warning d-flex justify-content-center text-dark fw-bold "
-          onClick={handleSubmit}>
-          Submit
-        </button>
-      </div>
-
-      <p className='mt-3 text-center'>
-        Already Have An Account?
-        <Link to='/SignIn'
-          className=' fw-bold text-decoration-none'>
-          Sign In</Link>
-      </p>
-    </form>
-
-
-      </div >
-    </div >
-  )
-}
-
-export default Register
+export default Register;

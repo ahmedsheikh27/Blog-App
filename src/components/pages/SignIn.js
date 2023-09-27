@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 
-const initiallizestate = { name: "", email: "", password: "" }
+const initiallizestate = { name: "", email: "", password: "", imageUrl:"" }
 
 const SignIn = () => {
   const [state, setState] = useState(initiallizestate);
@@ -31,14 +31,14 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password, name } = state;
+    const { email, password, name, imageUrl } = state;
 
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, password, name, imageUrl)
       .then((userCredential) => {
         const user = userCredential.user;
 
         // Set the display name to the name from the form
-        updateProfile(user, { displayName: name })
+        updateProfile(user, { displayName: name,imageUrl:user.imageUrl })
           .then(() => {
             setUser(user);
           })
@@ -70,7 +70,7 @@ const SignIn = () => {
     <div>
       {user ? (
         <div>
-          <img className='img-fluid rounded-5' src={user.photoURL} alt={`${user.displayName}`} />
+          <img className='img-fluid rounded-5' src={user.imageUrl} alt={`${user.displayName}`} />
           <h2>User Email: {user.email}</h2>
           <h2>User Name: {user.displayName}</h2>
           <h2>UId : {user.uid}</h2>
