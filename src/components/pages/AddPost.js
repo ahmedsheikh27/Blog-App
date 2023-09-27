@@ -3,66 +3,60 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { firestore, storage } from '../config/Firebasa'; // Import your Firebase configuration
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import {  ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {storage } from '../config/Firebasa'
 
 const Addpost = () => {
-  const [formData, setFormData] = useState({
+  const [state, setState] = useState({
     name: '',
     itemName: '',
     email: '',
+    imageFile: null,
     description: '',
   });
-  const [file, setFile] = useState(null);
 
-  const handleFormSubmit = async (e) => {
+  const handleChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setState({ ...state, imageFile: file });
+  };
+
+  const uploadPost = async (e) => {
     e.preventDefault();
+    const { email, name, imageFile, description } = state;
 
     try {
-      // Upload the file to Firebase Storage (if a file is selected)
-      let fileUrl = null;
-      if (file) {
-        const storageRef = storage.ref();
-        const fileRef = storageRef.child(file.name);
-        await fileRef.put(file);
-        fileUrl = await fileRef.getDownloadURL();
+      const db = getFirestore();
+      const usersRef = collection(db, 'posts');
+
+      // Upload the image file to Firebase Storage
+      if (imageFile) {
+        const imageRef = ref(storage, `images/${imageFile.name}`);
+        await uploadBytes(imageRef, imageFile);
+        const imageUrl = await getDownloadURL(imageRef);
+
+        // Add the data including the image URL to Firestore
+        await addDoc(usersRef, {
+          name: name,
+          email: email,
+          description: description,
+          imageUrl: imageUrl,
+        });
+
+        console.log('Post Upload');
+        console.log(state);
+      } else {
+        console.error('Please select an image.');
       }
-
-      // Add the form data and file URL to Firestore
-      await firestore.collection('posts').add({
-        ...formData,
-        imageUrl: fileUrl, // Assuming you want to store an image URL
-      });
-
-      // Clear the form fields after successful submission
-      setFormData({
-        name: '',
-        itemName: '',
-        email: '',
-        description: '',
-      });
-      setFile(null);
-
-      // Optionally, display a success message to the user
-      console.log('Post uploaded successfully!');
     } catch (error) {
-      // Handle errors, e.g., display an error message to the user
-      console.error('Error uploading post:', error);
+      console.error(error);
     }
   };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-  };
-
+  
   return (
     <Box
       component="form"
@@ -76,100 +70,95 @@ const Addpost = () => {
         padding: '16px',
       }}
     >
-        <div
+      <div
         style={{
           display: 'flex',
-          flexDirection: 'row', // Change to column by default
-          alignItems: 'center', // Center items by default
-          width: '50%', // Take full width by default
+          flexDirection: 'row',
+          alignItems: 'center',
+          width: '100%',
         }}
-        >
-
-      <TextField
-        sx={{
-          '& > :not(style)': { width: '100%' },
-          marginBottom: '16px',
-          marginRight:'30px'
-        }}
-        id="outlined-basic"
-        label="Name"
-        variant="outlined"
-        name="name"
-        value={formData.name}
-        onChange={handleInputChange}
-        required
-      />
-      <TextField
-        sx={{
-          '& > :not(style)': { width: '100%' },
-          marginBottom: '16px',
-        }}
-        id="outlined-basic"
-        label="Item Name"
-        variant="outlined"
-        name="itemName"
-        value={formData.itemName}
-        onChange={handleInputChange}
-        required
+      >
+        <TextField
+          sx={{
+            '& > :not(style)': { width: '100%' },
+            marginBottom: '16px',
+            marginRight: '30px',
+          }}
+          id="outlined-basic"
+          label="Name"
+          variant="outlined"
+          name="name"
+          required
+          onChange={handleChange}
         />
-        </div>
-        <div
+        <TextField
+          sx={{
+            '& > :not(style)': { width: '100%' },
+            marginBottom: '16px',
+          }}
+          id="outlined-basic"
+          label="Item Name"
+          variant="outlined"
+          name="itemName"
+          required
+          onChange={handleChange}
+        />
+      </div>
+      <div
         style={{
           display: 'flex',
-          flexDirection: 'row', // Change to column by default
-          alignItems: 'center', // Center items by default
-          width: '50%', // Take full width by default
+          flexDirection: 'row',
+          alignItems: 'center',
+          width: '100%',
         }}
-        >
-
-      <TextField
-        sx={{
-          '& > :not(style)': { width: '100%' },
-          marginBottom: '16px',
-          marginRight:'30px'
-        }}
-        id="outlined-basic"
-        label="Enter Email"
-        variant="outlined"
-        name="email"
-        value={formData.email}
-        onChange={handleInputChange}
-        required
+      >
+        <TextField
+          sx={{
+            '& > :not(style)': { width: '100%' },
+            marginBottom: '16px',
+            marginRight: '30px',
+          }}
+          id="outlined-basic"
+          label="Enter Email"
+          variant="outlined"
+          name="email"
+          required
+          onChange={handleChange}
         />
-      <TextField
-        type="file"
-        accept="image/jpg" // Set the accepted file types
-        onChange={handleFileChange}
-        sx={{
-          '& > :not(style)': { width: '100%' },
-          marginBottom: '16px',
-        }}
+        <TextField
+          type="file"
+          accept="image/*" // Set the accepted file types
+          sx={{
+            '& > :not(style)': { width: '100%' },
+            marginBottom: '16px',
+          }}
+          onChange={handleImageUpload}
         />
-        </div>
+      </div>
       <TextField
         id="outlined-multiline-static"
         label="Description..."
         multiline
         rows={4}
+        onChange={handleChange}
         sx={{
           '& > :not(style)': {
             width: '100%',
-            margin: '0 auto'
+            margin: '0 auto',
           },
           marginBottom: '16px',
-          maxWidth:'400px'
+          maxWidth: '400px',
         }}
         name="description"
-        value={formData.description}
-        onChange={handleInputChange}
         required
+
       />
       <Button
         variant="contained"
         startIcon={<CloudUploadIcon />}
         sx={{ fontWeight: 'bold' }}
         type="submit"
-        onClick={handleFormSubmit}
+        onClick={uploadPost}
       >
         Upload Post
       </Button>
