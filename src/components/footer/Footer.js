@@ -13,25 +13,25 @@ const Footer = () => {
         <div className="footer-section">
           <h2>FAQs</h2>
           <ul>
-            <li><a href="/faq">How to get started?</a></li>
-            <li><a href="/faq">Is my data secure?</a></li>
-            <li><a href="/faq">How can I contact support?</a></li>
+            <li><a href="#">How to get started?</a></li>
+            <li><a href="#">Is my data secure?</a></li>
+            <li><a href="#">How can I contact support?</a></li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h2>Quick Links</h2>
           <ul>
-            <li><a href="/about-us">About Us</a></li>
-            <li><a href="/terms-of-service">Terms of Service</a></li>
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h2>Contact Us</h2>
           <p>Email: contact@snapbyte.com</p>
-          <p>Phone: +1 (123) 456-7890</p>
+          <p>Phone: +1 111 112 3 </p>
         </div>
       </div>
 
