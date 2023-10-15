@@ -4,7 +4,19 @@ import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSmile, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { storage } from '../config/Firebasa';
+import {
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
 import './page.css';
 
 const initialState = { name: '', email: '', password: '', imageFile: null };
@@ -58,95 +70,108 @@ const Register = () => {
       console.error(error);
     }
   };
+  const handleTogglePasswordVisibility = () => {
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
+    });
+  };
 
   return (
-    <div className='input-feild'>
-      <div className="d-flex justify-content-center flex-column">
-        <h1 className="mt-3 text-center text-danger mb-3">Register</h1>
-        <form className="input-field">
-          <div className='fw-bold text-warning font-poppins text-center'>
-            <h5>New to Here</h5>
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Your Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              placeholder="First and Last name"
-              onChange={handleChange}
-              className="form-control p-3"
-              id="name"
-              aria-describedby="emailHelp"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label
-              htmlFor="email"
-              className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              name='email'
-              placeholder='Your email address'
-              onChange={handleChange}
-              className="form-control p-3"
-              id="email"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label
-              htmlFor="password"
-              className="form-label"
-            >Password</label>
-            <input
-              type="password"
-              className="form-control p-3"
-              placeholder='Your password'
-              id="password"
-              name='password'
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="imageFile" className="form-label">
-              Add Image
-            </label>
-            <input
-              type="file"
-              className="form-control p-3"
-              placeholder="Upload Profile Photo"
-              id="imageFile"
-              name="imageFile"
-              onChange={handleImage}
-            />
-          </div>
-
-          <div className="d-flex justify-content-center">
-            <button
-              type="submit"
-              className="btn btn-outline-warning d-flex justify-content-center text-dark fw-bold"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
-
-          <p className="mt-3 text-center text-sm">
-            Already Have An Account?
-            <Link to="/SignIn" className="fw-bold text-decoration-none">
-              Sign In
-            </Link>
-          </p>
-        </form>
-      </div>
-    </div>
+    <div className="d-flex justify-content-center flex-column input-field">
+    <Card variant="outlined"
+    sx={{
+      maxWidth:'500px',
+      marginLeft:'auto',
+      marginRight:'auto',
+      marginTop:'20px',
+     borderRadius:'10px',
+     background:'#f3f4f7'
+    }}>
+      <CardContent>
+        <Typography variant="h6" align="center" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+          New to Here
+        </Typography>
+        <Avatar sx={{ width: 96, height: 96, margin: '0 auto' }}>
+          <FontAwesomeIcon icon={faSmile} size="2x" />
+        </Avatar>
+        <TextField
+          id="name"
+          name="name"
+          label="Your Name"
+          placeholder="First and Last name"
+          onChange={handleChange}
+          value={state.name}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          id="email"
+          name="email"
+          type="email"
+          label="Email address"
+          placeholder="Your email address"
+          onChange={handleChange}
+          value={state.email}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          id="password"
+          name="password"
+          type={state.showPassword ? 'text' : 'password'}
+          label="Password"
+          placeholder="Your password"
+          onChange={handleChange}
+          value={state.password}
+          fullWidth
+          margin="normal"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+                  <FontAwesomeIcon icon={state.showPassword ? faEye : faEyeSlash} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <input
+          type="file"
+          id="imageFile"
+          name="imageFile"
+          onChange={handleImage}
+          style={{ display: 'none' }}
+        />
+        <label htmlFor="imageFile">
+          <Button variant="outlined" component="span">
+            Add Image
+          </Button>
+        </label>
+        {state.imageFile && (
+          <Typography variant="body1">
+            Image selected: {state.imageFile.name}
+          </Typography>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            variant="outlined"
+            color="warning"
+            size="large"
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </div>
+        <Typography variant="body1" align="center">
+          Already Have An Account?{' '}
+          <Link to="/SignIn" className="fw-bold text-decoration-none">
+            Sign In
+          </Link>
+        </Typography>
+      </CardContent>
+    </Card>
+  </div>
   );
 };
 

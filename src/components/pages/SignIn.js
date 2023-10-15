@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, sendEmailVerification } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ListSubheader } from '@mui/material/List';
-import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
-import { Avatar, Card, CardContent, Typography, Button } from '@mui/material';
+import { faSmile, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { TextField, Button, Typography, Card, CardContent, Avatar,
+  InputAdornment,
+  IconButton, } from '@mui/material';
 
 import './page.css';
 
@@ -62,6 +63,12 @@ const SignIn = () => {
         console.log(error);
       });
   };
+  const handleTogglePasswordVisibility = () => {
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
+    });
+  };
 
   // const handleEmailVerification = () => {
   //   sendEmailVerification(auth.currentUser)
@@ -73,7 +80,12 @@ const SignIn = () => {
   return (
     <div>
       {user ? (
-          <Card>
+          <Card sx={{
+            maxWidth:'300px',
+            marginLeft:'auto',
+            marginRight:'auto',
+            marginTop:'20px'
+          }}>
           <CardContent>
             <Avatar
               alt={user.displayName}
@@ -97,85 +109,82 @@ const SignIn = () => {
           </CardContent>
         </Card>
       ) : (
-        <div className="d-flex justify-content-center flex-column input-feild">
-          <h1 className="mt-3 mb-3 text-center text-danger">Login</h1>
-          <form className="input-field">
-            <div className="fw-bold text-warning font-poppins text-center">
-              <h5>Welcome Back</h5>
-              <FontAwesomeIcon className="fs-1" icon={faFaceSmile} />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Your Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                placeholder="First and Last name"
-                onChange={handleChange}
-                className="form-control p-3"
-                id="name"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Your email address"
-                onChange={handleChange}
-                className="form-control p-3"
-                id="email"
-              />
-              <div className="form-text">
-                We'll never share your email with anyone else.
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control p-3"
-                placeholder="Your password"
-                id="password"
-                name="password"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3 form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="check"
-                onChange={handleChange}
-              />
-              <label className="form-check-label" htmlFor="check">
-                Check me out
-              </label>
-            </div>
-            <div className="d-flex justify-content-center">
-              <button
-                type="button"
-                className="btn btn-outline-warning d-flex justify-content-center text-dark fw-bold"
-                onClick={handleSignIn}
-              >
-                Submit
-              </button>
-            </div>
-            <p className="mt-3 text-center">
-              Don't Have An Account?
-              <Link to="/Register" className="fw-bold text-decoration-none">
-                Register
-              </Link>
-            </p>
-          </form>
-        </div>
+        <Card variant="outlined"
+        sx={{
+          maxWidth:'500px',
+          marginLeft:'auto',
+          marginRight:'auto',
+          marginTop:'20px',
+         borderRadius:'10px',
+         background:'#f3f4f7'
+        }}>
+        <CardContent>
+          <Typography variant="h6" align="center" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+            Welcome Back
+          </Typography>
+          <Avatar sx={{ width: 96, height: 96, margin: '0 auto' }}>
+            <FontAwesomeIcon icon={faSmile} size="2x" />
+          </Avatar>
+          <TextField
+            id="name"
+            name="name"
+            label="Your Name"
+            placeholder="First and Last name"
+            onChange={handleChange}
+            value={state.name}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            id="email"
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Your email address"
+            onChange={handleChange}
+            value={state.email}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+          id="password"
+          name="password"
+          type={state.showPassword ? 'text' : 'password'}
+          label="Password"
+          placeholder="Your password"
+          onChange={handleChange}
+          value={state.password}
+          fullWidth
+          margin="normal"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+                  <FontAwesomeIcon icon={state.showPassword ? faEye : faEyeSlash} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+          
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="outlined"
+              color="warning"
+              size="large"
+              onClick={handleSignIn}
+            >
+              Submit
+            </Button>
+          </div>
+          <Typography variant="body1" align="center">
+            Don't Have An Account?{' '}
+            <Link to="/Register" className="fw-bold text-decoration-none">
+              Register
+            </Link>
+          </Typography>
+        </CardContent>
+      </Card>
       )}
     </div>
   );

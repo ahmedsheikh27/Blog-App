@@ -1,10 +1,11 @@
 /* Login Page Styling is Star from Here */
 
 .input-feild {
-  max-width: 550px;
-  background: rgb(248, 246, 242);
+  max-width: 380px;
+  background: white;
   padding: 20px;
   margin: 0 auto;
+  margin-top: 30px;
   border-radius: 5px;
   box-shadow: 1px 2px 5px gray;
 }
@@ -18,7 +19,7 @@ link {
 .card {
   display: flex;
   flex-direction: row-reverse;
-  background-color: eef1f0 ;
+  background-color: eef1f0;
   border-radius: 5px;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
   margin: 10px;
@@ -63,4 +64,39 @@ link {
     width: 100%;
     border-radius: 5px 5px 0 0;
   }
+}
+
+
+
+/* profile */
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card{
+  max-width: 400px;
+}
+.profileImage {
+  width:80px;
+  height: 80px;
+  border-radius: 100%;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.btns{
+  width: 50%;
+  margin-left:auto;
+  margin-right: auto;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
