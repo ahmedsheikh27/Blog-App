@@ -4,8 +4,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import {  ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import {storage } from '../config/Firebasa'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage, auth } from '../config/Firebasa'
+
 
 const Addpost = () => {
   const [state, setState] = useState({
@@ -15,6 +16,7 @@ const Addpost = () => {
     imageFile: null,
     description: '',
   });
+  
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -27,36 +29,44 @@ const Addpost = () => {
 
   const uploadPost = async (e) => {
     e.preventDefault();
-    const { email, name, imageFile, description } = state;
+    const { email, name, imageFile, description, itemName } = state;
+    if (!auth) {
+      alert('You must logged in')
+    } else {
 
-    try {
-      const db = getFirestore();
-      const usersRef = collection(db, 'posts');
 
-      // Upload the image file to Firebase Storage
-      if (imageFile) {
-        const imageRef = ref(storage, `images/${imageFile.name}`);
-        await uploadBytes(imageRef, imageFile);
-        const imageUrl = await getDownloadURL(imageRef);
+      try {
+        const db = getFirestore();
+        const usersRef = collection(db, 'posts');
 
-        // Add the data including the image URL to Firestore
-        await addDoc(usersRef, {
-          name: name,
-          email: email,
-          description: description,
-          imageUrl: imageUrl,
-        });
+        // Upload the image file to Firebase Storage
+        if (imageFile) {
+          const imageRef = ref(storage, `images/${imageFile.name}`);
+          await uploadBytes(imageRef, imageFile);
+          const imageUrl = await getDownloadURL(imageRef);
 
-        console.log('Post Upload');
-        console.log(state);
-      } else {
-        console.error('Please select an image.');
+          // Add the data including the image URL to Firestore
+          await addDoc(usersRef, {
+            name: name,
+            email: email,
+            description: description,
+            imageUrl: imageUrl,
+            itemName: itemName
+          });
+
+          console.log('Post Upload');
+          console.log(state);
+        } else {
+          console.error('Please select an image.');
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
-  };
-  
+  }
+
+
+
   return (
     <Box
       component="form"
@@ -68,6 +78,7 @@ const Addpost = () => {
         alignItems: 'center',
         margin: '0 auto',
         padding: '16px',
+        width: '500px'
       }}
     >
       <div
@@ -162,6 +173,7 @@ const Addpost = () => {
       >
         Upload Post
       </Button>
+      
     </Box>
   );
 };

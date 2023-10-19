@@ -58,6 +58,7 @@ const Register = () => {
           name: name,
           email: email,
           imageUrl: imageUrl,
+          password:password
         });
 
         console.log('User Registered');
