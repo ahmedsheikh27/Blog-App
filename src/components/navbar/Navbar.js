@@ -15,10 +15,10 @@ import logo from '../assets/logo.png'
 
 function Navbar() {
   const [click, setClick] = useState(false);
-
   const handleClick = () => setClick(!click);
   return (
       <>
+      
       <BrowserRouter>
       <nav className="navbar">
         <div className="nav-container">
