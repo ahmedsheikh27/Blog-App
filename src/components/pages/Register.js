@@ -155,6 +155,7 @@ const Register = () => {
           </Typography>
         )}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Link to="/SignIn" >
           <Button
             variant="outlined"
             color="warning"
@@ -163,6 +164,7 @@ const Register = () => {
           >
             Submit
           </Button>
+          </Link>
         </div>
         <Typography variant="body1" align="center">
           Already Have An Account?{' '}
