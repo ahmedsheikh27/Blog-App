@@ -71,7 +71,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             {user ? (
-              <Link to="/profile" className="nav-links">
+              <Link to="/SignIn" className="nav-links">
                 <Avatar
                   alt={user.displayName}
                   src={user.photoURL}
