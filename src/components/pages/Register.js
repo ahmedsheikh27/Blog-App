@@ -22,7 +22,7 @@ import './page.css';
 const initialState = { name: '', email: '', password: '', imageFile: null };
 
 const Register = () => {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState([initialState]);
 
   const handleImage = (e) => {
     const file = e.target.files[0];
@@ -122,7 +122,7 @@ const Register = () => {
           name="password"
           type={state.showPassword ? 'text' : 'password'}
           label="Password"
-          placeholder="Your password"
+          placeholder="At least 6 chracters"
           onChange={handleChange}
           value={state.password}
           fullWidth

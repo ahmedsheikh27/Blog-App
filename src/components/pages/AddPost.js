@@ -78,7 +78,7 @@ const Addpost = () => {
         alignItems: 'center',
         margin: '0 auto',
         padding: '16px',
-        width: '500px'
+        maxWidth: '500px'
       }}
     >
       <div

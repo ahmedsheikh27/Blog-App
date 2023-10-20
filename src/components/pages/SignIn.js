@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,23 +36,29 @@ const SignIn = () => {
 
   const handleSignIn = () => {
     const { email, password, name, imageUrl } = state;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        // Set the user's display name and photo URL
-        updateProfile(user, { displayName: name, photoURL: imageUrl })
-          .then(() => {
-            setUser(user);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+      // Sign in with email and password
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // Set the user's display name and photo URL
+          updateProfile(user, { displayName: name, photoURL: imageUrl })
+            .then(() => {
+              setUser(user);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
   const handleSignout = () => {
     signOut(auth)
