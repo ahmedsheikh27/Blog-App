@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from './components/navbar/Navbar'
 import './App.css'
 import Footer from './components/footer/Footer'
@@ -13,18 +13,18 @@ const App = () => {
       setLoading(false); // Loading complete
     }, 4000);
   }, []);
-    return (
+  return (
     <>
-    {
-      loading?
-      <Loader />:
-      <div>
-      <Navbar />
-      <Footer />
-      </div>
-    }
+      {
+        loading ?
+          <Loader /> :
+          <div>
+            <Navbar />
+            <Footer />
+          </div>
+      }
     </>
   );
-      }
+}
 
 export default App
