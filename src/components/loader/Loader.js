@@ -5,7 +5,7 @@ import './loader.css'
 
 const Loader = () => {
   return (
-    <div className="camera-loader">
+     <div className="camera-loader">
     <FontAwesomeIcon icon={faCamera} className="camera-icon" spin />
   </div>
   )
