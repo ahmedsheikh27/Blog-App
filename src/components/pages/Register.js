@@ -40,7 +40,6 @@ const Register = () => {
       // Create the user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      window.location.href = '/SignIn';
       // Upload the image file to Firebase Storage
       if (imageFile) {
         const imageRef = ref(storage, `images/${user.uid}/${imageFile.name}`);
@@ -63,6 +62,7 @@ const Register = () => {
         console.log('User Registered');
         console.log(userCredential);
         console.log(user);
+        console.log(state)
       } else {
         console.error('Please select an image.');
       }
