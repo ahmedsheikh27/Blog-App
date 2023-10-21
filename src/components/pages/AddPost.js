@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -6,20 +6,34 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, auth } from '../config/Firebasa'
+import { onAuthStateChanged } from "firebase/auth";
 
 
 const Addpost = () => {
   const [state, setState] = useState({
-    name: '',
     itemName: '',
-    email: '',
     imageFile: null,
     description: '',
   });
-  
 
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user)
+        // ...
+      } else {
+        setUser(null)
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
+
   };
 
   const handleImageUpload = (e) => {
@@ -29,38 +43,43 @@ const Addpost = () => {
 
   const uploadPost = async (e) => {
     e.preventDefault();
-    const { email, name, imageFile, description, itemName } = state;
-    if (!auth) {
-      alert('You must logged in')
-    } else {
+    window.location.reload();
+    const { imageFile, description, itemName } = state;
+    if (!description || !itemName || !imageFile) {
+      alert('Please fill INput feilds first')
+    }
+    else {
 
 
-      try {
-        const db = getFirestore();
-        const usersRef = collection(db, 'posts');
+      if (user) {
+        try {
+          const db = getFirestore();
+          const usersRef = collection(db, 'posts');
 
-        // Upload the image file to Firebase Storage
-        if (imageFile) {
-          const imageRef = ref(storage, `images/${imageFile.name}`);
-          await uploadBytes(imageRef, imageFile);
-          const imageUrl = await getDownloadURL(imageRef);
+          // Upload the image file to Firebase Storage
+          if (imageFile) {
+            const imageRef = ref(storage, `images/${imageFile.name}`);
+            await uploadBytes(imageRef, imageFile);
+            const imageUrl = await getDownloadURL(imageRef);
 
-          // Add the data including the image URL to Firestore
-          await addDoc(usersRef, {
-            name: name,
-            email: email,
-            description: description,
-            imageUrl: imageUrl,
-            itemName: itemName
-          });
+            // Add the data including the image URL to Firestore
+            await addDoc(usersRef, {
+              description: description,
+              imageUrl: imageUrl,
+              itemName: itemName
+            });
 
-          console.log('Post Upload');
-          console.log(state);
-        } else {
-          console.error('Please select an image.');
+            console.log('Post Upload');
+            console.log(state);
+          } else {
+            console.error('Please select an image.');
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+
+        alert('You must logged in ')
       }
     }
   }
@@ -81,15 +100,15 @@ const Addpost = () => {
         maxWidth: '500px'
       }}
     >
-      <div
+      {/* <div
         style={{
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           width: '100%',
         }}
-      >
-        <TextField
+      > */}
+        {/* <TextField
           sx={{
             '& > :not(style)': { width: '100%' },
             marginBottom: '16px',
@@ -101,7 +120,7 @@ const Addpost = () => {
           name="name"
           required
           onChange={handleChange}
-        />
+        /> */}
         <TextField
           sx={{
             '& > :not(style)': { width: '100%' },
@@ -114,16 +133,16 @@ const Addpost = () => {
           required
           onChange={handleChange}
         />
-      </div>
-      <div
+      {/* </div> */}
+      {/* <div
         style={{
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           width: '100%',
         }}
-      >
-        <TextField
+      > */}
+        {/* <TextField
           sx={{
             '& > :not(style)': { width: '100%' },
             marginBottom: '16px',
@@ -135,7 +154,7 @@ const Addpost = () => {
           name="email"
           required
           onChange={handleChange}
-        />
+        /> */}
         <TextField
           type="file"
           accept="image/*" // Set the accepted file types
@@ -145,7 +164,7 @@ const Addpost = () => {
           }}
           onChange={handleImageUpload}
         />
-      </div>
+      {/* </div> */}
       <TextField
         id="outlined-multiline-static"
         label="Description..."
@@ -173,7 +192,7 @@ const Addpost = () => {
       >
         Upload Post
       </Button>
-      
+
     </Box>
   );
 };
