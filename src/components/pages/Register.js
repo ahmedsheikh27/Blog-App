@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmile, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { storage } from '../config/Firebasa';
+import { storage, auth } from '../config/Firebasa';
 import {
   TextField,
   Button,
@@ -41,7 +40,7 @@ const Register = () => {
       // Create the user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+      window.location.href = '/SignIn';
       // Upload the image file to Firebase Storage
       if (imageFile) {
         const imageRef = ref(storage, `images/${user.uid}/${imageFile.name}`);
