@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, setPersistence, browserSessionPersistence } from 'firebase/auth';
-import { auth } from '../config/Firebasa';
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  updateProfile,
+  setPersistence,
+  browserSessionPersistence,
+  signInWithPopup
+} from 'firebase/auth';
+import { auth, provider } from '../config/Firebasa';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmile, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { TextField, Button, Typography, Card, CardContent, Avatar,
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import {
+  TextField, Button, Typography, Card, CardContent, Avatar,
   InputAdornment,
-  IconButton, } from '@mui/material';
+  IconButton,
+} from '@mui/material';
 
 import './page.css';
 
@@ -37,29 +48,39 @@ const SignIn = () => {
   const handleSignIn = () => {
     const { email, password, name, imageUrl } = state;
     setPersistence(auth, browserSessionPersistence)
-    .then(() => {
-      // Sign in with email and password
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          // Set the user's display name and photo URL
-          updateProfile(user, { displayName: name, photoURL: imageUrl })
-            .then(() => {
-              setUser(user);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+      .then(() => {
+        // Sign in with email and password
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            // Set the user's display name and photo URL
+            updateProfile(user, { displayName: name, photoURL: imageUrl })
+              .then(() => {
+                setUser(user);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
+  const GoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user
+      console.log(user)
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
   const handleSignout = () => {
     signOut(auth)
       .then(() => {
@@ -86,12 +107,12 @@ const SignIn = () => {
   return (
     <div>
       {user ? (
-          <Card sx={{
-            maxWidth:'300px',
-            marginLeft:'auto',
-            marginRight:'auto',
-            marginTop:'20px'
-          }}>
+        <Card sx={{
+          maxWidth: '300px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginTop: '20px'
+        }}>
           <CardContent>
             <Avatar
               alt={user.displayName}
@@ -116,81 +137,97 @@ const SignIn = () => {
         </Card>
       ) : (
         <Card variant="outlined"
-        sx={{
-          maxWidth:'500px',
-          marginLeft:'auto',
-          marginRight:'auto',
-          marginTop:'20px',
-         borderRadius:'10px',
-         background:'#f3f4f7'
-        }}>
-        <CardContent>
-          <Typography variant="h6" align="center" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-            Welcome Back
-          </Typography>
-          <Avatar sx={{ width: 96, height: 96, margin: '0 auto' }}>
-            <FontAwesomeIcon icon={faSmile} size="2x" />
-          </Avatar>
-          <TextField
-            id="name"
-            name="name"
-            label="Your Name"
-            placeholder="First and Last name"
-            onChange={handleChange}
-            value={state.name}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            id="email"
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="Your email address"
-            onChange={handleChange}
-            value={state.email}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-          id="password"
-          name="password"
-          type={state.showPassword ? 'text' : 'password'}
-          label="Password"
-          placeholder="Your password"
-          onChange={handleChange}
-          value={state.password}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleTogglePasswordVisibility} edge="end">
-                  <FontAwesomeIcon icon={state.showPassword ? faEye : faEyeSlash} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-          
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant="outlined"
-              color="warning"
-              size="large"
-              onClick={handleSignIn}
-            >
-              Submit
-            </Button>
-          </div>
-          <Typography variant="body1" align="center">
-            Don't Have An Account?{' '}
-            <Link to="/Register" className="fw-bold text-decoration-none">
-              Register
-            </Link>
-          </Typography>
-        </CardContent>
-      </Card>
+          sx={{
+            maxWidth: '500px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '20px',
+            borderRadius: '10px',
+            background: '#f3f4f7'
+          }}>
+          <CardContent>
+            <Typography variant="h6" align="center" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+              Welcome Back
+            </Typography>
+            <Avatar sx={{ width: 96, height: 96, margin: '0 auto',color:'yellow' }}>
+              <FontAwesomeIcon icon={faSmile} size="2x" />
+            </Avatar>
+            <TextField
+              id="name"
+              name="name"
+              label="Your Name"
+              placeholder="First and Last name"
+              onChange={handleChange}
+              value={state.name}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              label="Email address"
+              placeholder="Your email address"
+              onChange={handleChange}
+              value={state.email}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              id="password"
+              name="password"
+              type={state.showPassword ? 'text' : 'password'}
+              label="Password"
+              placeholder="Your password"
+              onChange={handleChange}
+              value={state.password}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+                      <FontAwesomeIcon icon={state.showPassword ? faEye : faEyeSlash} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <div style={{
+              display: 'flex', justifyContent: 'center', marginBottom: '10px',
+              marginTop: '10px'
+            }}>
+              <Button
+                style={{
+                  color: 'white',
+                  background: 'blue',
+                  borderRadius: '5px',
+                  width: '150px'
+                }}
+                size="large"
+                onClick={handleSignIn}
+              >
+                Submit
+              </Button>
+            </div>
+            <Typography variant="body1" align="center">
+              Or,Continue with Google
+            </Typography>
+            <div className='google-button'>
+              <FontAwesomeIcon icon={faGoogle}
+                onClick={GoogleSignIn}
+                className='google-icon' />
+              <p className='icon-text'>SignIn </p>
+            </div>
+            <Typography variant="body1" align="center">
+              Don't Have An Account?{' '}
+              <Link to="/Register" className="fw-bold text-decoration-none">
+                Register
+              </Link>
+            </Typography>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
