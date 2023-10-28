@@ -51,3 +51,36 @@
 }
 
 
+/* google button */
+/* buttonStyles.css */
+.google-button {
+  background-color: yellow;
+  border: 2px solid #0363ff;
+  border-radius: 20px;
+  padding: 8px;
+  cursor: pointer;
+  height: 30px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.google-icon{
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+}
+.icon-text{
+  font-size: 15px;
+  margin-top: 13px;
+  color: #0363ff;
+font-weight: bold;
+}
+.google-button:hover{
+  background: yellow;
+  color: red;
+}
+
