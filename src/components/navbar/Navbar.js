@@ -70,6 +70,11 @@ function Navbar() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link exact to="/Post" activeClassName="active" className="nav-links">
+              Posts
+            </Link>
+          </li>
+          <li className="nav-item">
             {user ? (
               <Link to="/SignIn" className="nav-links">
                 <Avatar
