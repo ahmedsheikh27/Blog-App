@@ -47,7 +47,7 @@ const Register = () => {
       const user = userCredential.user;
       // Upload the image file to Firebase Storage
       if (imageFile) {
-        const imageRef = ref(storage, `images/${user.uid}/${imageFile.name}`);
+        const imageRef = ref(storage, `images/${user.name}/${imageFile.name}`);
         await uploadBytes(imageRef, imageFile);
         const imageUrl = await getDownloadURL(imageRef);
 

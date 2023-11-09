@@ -138,7 +138,7 @@ const SignIn = () => {
       ) : (
         <Card variant="outlined"
           sx={{
-            maxWidth: '500px',
+            maxWidth: '430px',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '20px',
