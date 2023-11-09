@@ -3,13 +3,16 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, auth } from '../config/Firebasa'
 import { onAuthStateChanged } from "firebase/auth";
-
+import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Addpost = () => {
+const navigate = useNavigate()
   const [state, setState] = useState({
     itemName: '',
     imageFile: null,
@@ -17,6 +20,7 @@ const Addpost = () => {
   });
 
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(null)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -43,22 +47,21 @@ const Addpost = () => {
 
   const uploadPost = async (e) => {
     e.preventDefault();
-    window.location.reload();
     const { imageFile, description, itemName } = state;
+
     if (!description || !itemName || !imageFile) {
-      alert('Please fill INput feilds first')
+      alert('Please fill Input feilds first')
     }
     else {
-
-
       if (user) {
-        try {
+        try { 
+          setLoading(true)
           const db = getFirestore();
           const usersRef = collection(db, 'posts');
 
           // Upload the image file to Firebase Storage
           if (imageFile) {
-            const imageRef = ref(storage, `images/${imageFile.name}`);
+            const imageRef = ref(storage, `posts/${imageFile.name}`);
             await uploadBytes(imageRef, imageFile);
             const imageUrl = await getDownloadURL(imageRef);
 
@@ -66,23 +69,26 @@ const Addpost = () => {
             await addDoc(usersRef, {
               description: description,
               imageUrl: imageUrl,
-              itemName: itemName
+              itemName: itemName,
             });
 
             console.log('Post Upload');
+            navigate('/Post')
             console.log(state);
           } else {
             console.error('Please select an image.');
           }
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); // Set loading to false when upload is complete
         }
       } else {
-
         alert('You must logged in ')
       }
     }
   }
+  
 
 
 
@@ -100,6 +106,13 @@ const Addpost = () => {
         maxWidth: '500px'
       }}
     >
+      <Typography variant='h3'
+      sx={{
+        marginBottom:'10px',
+        color:'grey'
+      }}>
+        Add New Post 
+      </Typography>
       {/* <div
         style={{
           display: 'flex',
@@ -192,7 +205,7 @@ const Addpost = () => {
       >
         Upload Post
       </Button>
-
+      {loading && <CircularProgress sx={{ marginTop: '10px' }} />}
     </Box>
   );
 };
