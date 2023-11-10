@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { getFirestore, collection, addDoc} from 'firebase/firestore';
+import { getFirestore, collection, addDoc, serverTimestamp} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, auth } from '../config/Firebasa'
 import { onAuthStateChanged } from "firebase/auth";
@@ -35,6 +35,7 @@ const navigate = useNavigate()
       unsubscribe()
     }
   }, [])
+  
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
 
@@ -70,6 +71,13 @@ const navigate = useNavigate()
               description: description,
               imageUrl: imageUrl,
               itemName: itemName,
+              timestamp: serverTimestamp(),
+              user: {
+                userId: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+              },
             });
 
             console.log('Post Upload');
