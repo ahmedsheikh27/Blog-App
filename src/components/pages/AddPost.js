@@ -62,7 +62,7 @@ const navigate = useNavigate()
 
           // Upload the image file to Firebase Storage
           if (imageFile) {
-            const imageRef = ref(storage, `posts/${imageFile.name}`);
+            const imageRef = ref(storage, `posts/${imageFile.itemName}`);
             await uploadBytes(imageRef, imageFile);
             const imageUrl = await getDownloadURL(imageRef);
 
