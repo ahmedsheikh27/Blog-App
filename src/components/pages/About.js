@@ -37,11 +37,11 @@ const About = () => {
         We are a diverse team of individuals with a shared passion for blogging and technology. Each member brings a unique set of skills and experiences to the table, but we all share a common goal: to make SnapByte the best blogging platform out there.
       </p>
       <ul>
-        <li>[Founder's Name] - Founder & CEO</li>
-        <li>[Team Member Name] - Chief Technology Officer</li>
-        <li>[Team Member Name] - Chief Content Officer</li>
-        <li>[Team Member Name] - Design Guru</li>
-        <li>[Team Member Name] - Customer Support Extraordinaire</li>
+        <li>Muhammad Ahmed - Founder & CEO</li>
+        <li>Dr.Azam Sheikh - Lead Data Scientist</li>
+        <li>Muhammad Wajid - Chief Technology Officer</li>
+        <li>Muhammad Hammad - Chief Content Officer</li>
+        <li>Muhammad Usman - Design Guru</li>
       </ul>
     </div>
   );
