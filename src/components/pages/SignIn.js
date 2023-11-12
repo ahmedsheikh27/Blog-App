@@ -18,7 +18,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import './page.css';
 
 const initialState = { name: '', email: '', password: '', imageUrl: '' };
@@ -26,6 +26,7 @@ const initialState = { name: '', email: '', password: '', imageUrl: '' };
 const SignIn = () => {
   const [state, setState] = useState(initialState);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,9 +48,12 @@ const SignIn = () => {
 
   const handleSignIn = () => {
     const { email, password, name, imageUrl } = state;
-    setPersistence(auth, browserSessionPersistence)
+    try {
+
+      setPersistence(auth, browserSessionPersistence)
       .then(() => {
         // Sign in with email and password
+        setLoading(true)
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
@@ -65,11 +69,16 @@ const SignIn = () => {
           .catch((error) => {
             console.log(error);
           });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+      };
 
   const GoogleSignIn = async () => {
     try {
@@ -136,6 +145,7 @@ const SignIn = () => {
           </CardContent>
         </Card>
       ) : (
+        <>
         <Card variant="outlined"
           sx={{
             maxWidth: '430px',
@@ -161,7 +171,7 @@ const SignIn = () => {
               value={state.name}
               fullWidth
               margin="normal"
-            />
+              />
             <TextField
               id="email"
               name="email"
@@ -172,7 +182,7 @@ const SignIn = () => {
               value={state.email}
               fullWidth
               margin="normal"
-            />
+              />
             <TextField
               id="password"
               name="password"
@@ -227,7 +237,10 @@ const SignIn = () => {
               </Link>
             </Typography>
           </CardContent>
+          
         </Card>
+      {loading && <CircularProgress sx={{ marginTop: '10px' }} />}
+                </>
       )}
     </div>
   );

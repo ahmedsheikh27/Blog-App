@@ -11,6 +11,7 @@ import {
   updateProfile,
   signInWithPopup
 } from 'firebase/auth';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   TextField,
   Button,
@@ -21,12 +22,15 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import './page.css';
 
 const initialState = { name: '', email: '', password: '', imageFile: null };
 
 const Register = () => {
+  const navigate = useNavigate()
   const [state, setState] = useState([initialState]);
+  const [loading, setLoadiing] = useState(false)
 
   const handleImage = (e) => {
     const file = e.target.files[0];
@@ -42,6 +46,7 @@ const Register = () => {
     const { email, password, name, imageFile } = state;
 
     try {
+      setLoadiing(true)
       // Create the user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -68,12 +73,16 @@ const Register = () => {
         console.log(userCredential);
         console.log(user);
         console.log(state)
+        navigate('/SignIn')
       } else {
         console.error('Please select an image.');
       }
     } catch (error) {
       console.error(error);
     }
+     finally {
+      setLoadiing(false)
+     }
   };
   const handleTogglePasswordVisibility = () => {
     setState({
@@ -211,6 +220,7 @@ const Register = () => {
             </Link>
           </Typography>
         </CardContent>
+      {loading && <CircularProgress sx={{ marginTop: '10px' }} />}
       </Card>
     </div>
   );
