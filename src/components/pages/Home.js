@@ -1,12 +1,12 @@
 import React from 'react'
 import './page.css'
 import blog from '../assets/blog.png'
-import HomeCard from '../card/HomeCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGreaterThan } from '@fortawesome/free-solid-svg-icons'
 import { auth } from '../config/Firebasa'
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from 'react-router-dom'
+import Post from '../posts/Post'
 
 
 const Home = () => {
@@ -39,8 +39,8 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <div className='homecard'>
-          <HomeCard />
+        <div className='homecard'>  
+        <Post/>
         </div>
       </div>
 
