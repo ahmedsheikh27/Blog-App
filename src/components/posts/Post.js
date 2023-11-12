@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, deleteDoc, doc} from 'firebase/firestore';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea, Typography, Avatar } from '@mui/material';
+import { CardActionArea, Typography, Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import ReactPaginate from 'react-paginate';
 import IconButton from '@mui/material/IconButton';
@@ -12,16 +12,47 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
+// import {auth} from '../config/Firebasa'
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Loader from '../loader/Loader'
+// import Loader from '../loader/Loader'
 import './Pagination.css'
 const Post = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [deletePostId, setDeletePostId] = useState(null); // Track the post to be deleted
+  const [openDialog, setOpenDialog] = useState(false);
 
+  const handleDeleteClick = (postId) => {
+    setDeletePostId(postId);
+    setOpenDialog(true);
+  };
 
+  const handleDeleteConfirm = async () => {
+    if (deletePostId) {
+      try {
+        setLoading(true)
+        const db = getFirestore();
+        const postRef = doc(db, 'posts', deletePostId);
+        await deleteDoc(postRef);
+        console.log('Post deleted successfully');
+      } catch (error) {
+        console.error('Error deleting post:', error);
+      } finally {
+        setOpenDialog(false);
+        setDeletePostId(null);
+        setLoading(false)
+      }
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setOpenDialog(false);
+    setDeletePostId(null);
+  };
+
+ 
 
   const postsPerPage = 9;
   const handlePageChange = ({ selected }) => {
@@ -48,9 +79,9 @@ const Post = () => {
 
   }, []);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -65,18 +96,11 @@ const Post = () => {
       {loading ? (
         // Show loader while posts are loading
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-          <Loader />
+          <CircularProgress />
         </Box>
       ) : (
         <>
-          <Typography variant='h3'
-            sx={{
-              color: 'grey',
-              textAlign: 'center',
-              marginTop: '10px'
-            }}>
-            New Posts
-          </Typography>
+          
           <Box sx={{
             display: 'flex',
             justifyContent: 'center',
@@ -129,7 +153,7 @@ const Post = () => {
                             aria-label="more"
                             aria-controls="post-menu"
                             aria-haspopup="true"
-                            onClick={handleClick}
+                            onClick={() => handleDeleteClick(post.id)} // Trigger delete dialog
                             sx={{ position: 'absolute', right: '10px' }}
                           >
                             <MoreVertIcon />
@@ -144,9 +168,24 @@ const Post = () => {
                           >
                             <MenuItem>Delete</MenuItem>
                           </Menu>
+
                         </Box>
 
                       )}
+                      <Dialog open={openDialog} onClose={handleDeleteCancel}>
+                        <DialogTitle>Delete Post</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Are you sure you want to delete this post?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleDeleteCancel}>Cancel</Button>
+                          <Button onClick={handleDeleteConfirm} color="error">
+                            Delete
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                       <CardMedia component="img" height="280" image={post.imageUrl} alt=""
                         sx={{ width: '300px' }} />
                       <CardContent sx={{ background: '#dee3e3' }}>
@@ -159,12 +198,12 @@ const Post = () => {
                         </Typography>
 
                       </CardContent>
-                      {/* <IconButton onClick={() => handleLikeToggle(post.id)}>
-                        {isLiked[post.id] ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
-                      </IconButton>
-                      <Typography variant="body2">
-                        {likeCount} {likeCount === 1 ? 'like' : 'likes'}
-                      </Typography> */}
+                      {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconButton color="default" onClick={() => handleLikeToggle(post.id)}>
+                          <FavoriteIcon color={isLiked? 'danger' : 'white'} />
+                        </IconButton>
+                        <Typography variant="body2">{post.likeCount} likes</Typography>
+                      </Box> */}
                     </CardActionArea>
                   </Card>
                 </Grid>
