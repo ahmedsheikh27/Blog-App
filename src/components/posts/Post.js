@@ -11,11 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import PostLikes from './PostLikes';
 import './Pagination.css'
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import {auth} from '../config/Firebasa'
-// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import Loader from '../loader/Loader'
 const Post = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true)
@@ -77,7 +74,9 @@ const Post = () => {
     };
     fetchData();
 
+
   }, []);
+
 
   // const handleClick = (event) => {
   //   setAnchorEl(event.currentTarget);
@@ -103,11 +102,11 @@ const Post = () => {
     if (days > 0) {
       return `${days} ${days === 1 ? 'd' : 'd'} ago`;
     } else if (hours > 0) {
-      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+      return `${hours} ${hours === 1 ? 'h' : 'h'} ago`;
     } else if (minutes > 0) {
-      return `${minutes} ${minutes === 1 ? 'min' : 'min'} ago`;
+      return `${minutes} ${minutes === 1 ? 'm' : 'm'} ago`;
     } else {
-      return `${seconds} ${seconds === 1 ? 'sec' : 'sec'} ago`;
+      return `${seconds} ${seconds === 1 ? 's' : 's'} ago`;
     }
   };
 
@@ -166,7 +165,7 @@ const Post = () => {
                             {post.user.displayName}
                           </Typography>
                           {/* Display the timestamp below the user name */}
-                          
+
                           <IconButton
                             aria-label="more"
                             aria-controls="post-menu"
@@ -187,7 +186,7 @@ const Post = () => {
                             <MenuItem>Delete</MenuItem>
                           </Menu>
 
-                   
+
                         </Box>
 
                       )}
@@ -205,18 +204,21 @@ const Post = () => {
                           </Button>
                         </DialogActions>
                       </Dialog>
-                      <Box 
-                       sx={{
-                        background:'#dee3e3',
-                        display:'flex',
-                        justifyContent:'space-between'
-                      }}>
-                         <Typography variant="body2" color="text.secondary" 
-                         sx={{marginLeft:'50px',
-                         marginTop:'-15px'}}>
+                      <Box
+                        sx={{
+                          background: '#dee3e3',
+                          display: 'flex',
+                          justifyContent: 'space-between'
+                        }}>
+                        <Typography variant="body2" color="text.secondary"
+                          sx={{
+                            marginLeft: '50px',
+                            marginTop: '-15px', 
+                            marginBottom:'10px  '
+                          }}>
                           {calculateTimeDifference(post.timestamp)}
                         </Typography>
-                          </Box>
+                      </Box>
                       <CardMedia component="img" height="280" image={post.imageUrl} alt=""
                         sx={{ width: '300px' }} />
                       <CardContent sx={{ background: '#dee3e3' }}>
@@ -229,10 +231,7 @@ const Post = () => {
 
                       </CardContent>
                       {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconButton color="default" onClick={() => handleLikeToggle(post.id)}>
-                          <FavoriteIcon color={isLiked? 'danger' : 'white'} />
-                        </IconButton>
-                        <Typography variant="body2">{post.likeCount} likes</Typography>
+                        <PostLikes postId={post.id} initialLikes={post.likes} />
                       </Box> */}
                     </CardActionArea>
                   </Card>
